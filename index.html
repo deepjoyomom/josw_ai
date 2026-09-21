@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>대한인공지능일보 | 특별기획: 대한민국 AI G3 도약 정책 총력전</title>
+  
+  <!-- Noto Serif KR (명조체) & Pretendard (고딕체) Web Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['"Noto Serif KR"', 'Batang', 'Georgia', 'serif'],
+            sans: ['Pretendard', '-apple-system', 'sans-serif'],
+          },
+          colors: {
+            paper: {
+              50: '#fdfcf7',
+              100: '#f7f5ed',
+              200: '#eee9da',
+              300: '#ded5bf',
+              800: '#2b2925',
+              900: '#181714',
+            },
+            ink: {
+              black: '#121212',
+              dark: '#222222',
+              gray: '#4a4a4a',
+              light: '#6e6e6e',
+              red: '#b91c1c',
+              blue: '#1d4ed8'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* Newspaper Paper Texture & Typography */
+    body {
+      background-color: #f6f3eb;
+      color: #1a1a1a;
+      background-image: radial-gradient(#ded8c7 0.75px, transparent 0.75px);
+      background-size: 16px 16px;
+    }
+
+    .newspaper-container {
+      background-color: #fdfbf7;
+      box-shadow: 0 4px 20px -2px rgba(40, 30, 20, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Traditional Newspaper Double Border */
+    .border-double-thick {
+      border-bottom: 4px double #111;
+    }
+    .border-double-top {
+      border-top: 4px double #111;
+    }
+    .border-dashed-news {
+      border-color: #aaa;
+      border-style: dashed;
+    }
+
+    /* Drop Cap for newspaper editorial leads */
+    .drop-cap::first-letter {
+      font-family: 'Noto Serif KR', serif;
+      float: left;
+      font-size: 3.2rem;
+      line-height: 0.85;
+      padding-top: 4px;
+      padding-right: 8px;
+      padding-bottom: 2px;
+      font-weight: 900;
+      color: #111;
+    }
+
+    /* Print styles */
+    @media print {
+      body {
+        background: #fff !important;
+        color: #000 !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .newspaper-container {
+        box-shadow: none !important;
+        border: none !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+      }
+    }
+  </style>
+</head>
+<body class="font-sans antialiased text-ink-black py-4 sm:py-8 px-2 sm:px-4">
+
+  <!-- Top Utilities Bar (No-print) -->
+  <div class="max-w-6xl mx-auto mb-4 no-print flex flex-wrap items-center justify-between gap-3 text-xs bg-paper-100 p-3 rounded-lg border border-paper-300">
+    <div class="flex items-center gap-3">
+      <span class="font-bold text-ink-red flex items-center gap-1">
+        <i data-lucide="newspaper" class="w-4 h-4"></i>
+        <span>신문 지면 모드</span>
+      </span>
+      <span class="text-ink-light">|</span>
+      <span>2026년 9월 21일 월요일 (특별 기획 판)</span>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <!-- Font size control -->
+      <div class="flex items-center gap-1 bg-white px-2 py-1 rounded border border-paper-300">
+        <span class="text-[11px] text-ink-light font-bold">글씨:</span>
+        <button onclick="changeFontSize('small')" class="px-1.5 py-0.5 hover:bg-paper-200 rounded text-xs">작게</button>
+        <button onclick="changeFontSize('normal')" class="px-1.5 py-0.5 hover:bg-paper-200 rounded text-xs font-bold text-ink-red">보통</button>
+        <button onclick="changeFontSize('large')" class="px-1.5 py-0.5 hover:bg-paper-200 rounded text-xs">크게</button>
+      </div>
+
+      <!-- Print Button -->
+      <button onclick="window.print()" class="flex items-center gap-1.5 px-3 py-1 bg-ink-dark text-white rounded hover:bg-black transition">
+        <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+        <span>지면 인쇄 (PDF)</span>
+      </button>
+
+      <!-- Previous Version Link -->
+      <a href="index_green.html" class="flex items-center gap-1 px-3 py-1 bg-emerald-700 text-white font-semibold rounded hover:bg-emerald-800 transition">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+        <span>이전 녹색 포털 버전 보기</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Newspaper Master Wrapper -->
+  <main id="newspaperArticle" class="newspaper-container max-w-6xl mx-auto p-6 sm:p-12 transition-all">
+    
+    <!-- Masthead / Newspaper Header -->
+    <header class="text-center pb-6 border-b-2 border-ink-black">
+      
+      <!-- Top info bar -->
+      <div class="flex justify-between items-center text-xs text-ink-gray border-b border-paper-300 pb-2 mb-4 font-serif">
+        <div>창간 2026년 1월 22일 (인공지능기본법 시행 기념호)</div>
+        <div class="font-bold text-ink-black">대한민국 AI 정책 특별기획보도</div>
+        <div>제 2026-0921호 / 석간 특별판</div>
+      </div>
+
+      <!-- Newspaper Title Title Logo -->
+      <div class="py-2">
+        <h1 class="font-serif font-black text-4xl sm:text-6xl md:text-7xl tracking-tighter text-ink-black leading-none uppercase">
+          대한인공지능일보
+        </h1>
+        <p class="font-serif tracking-[0.3em] text-xs sm:text-sm text-ink-gray mt-2 font-bold">
+          THE KOREA ARTIFICIAL INTELLIGENCE CHRONICLE
+        </p>
+      </div>
+
+      <!-- Sub-bar -->
+      <div class="flex flex-wrap justify-between items-center text-xs text-ink-dark border-t-2 border-b-4 border-ink-black py-2 mt-4 font-serif font-bold">
+        <span>【오늘의 1면】 범정부 10조원 투입 · 글로벌 AI G3 도약 총력</span>
+        <span class="hidden md:inline">·</span>
+        <span>【2면 종합】 인공지능기본법 시행령 안착</span>
+        <span class="hidden md:inline">·</span>
+        <span>【3면 산업】 소버린 AI & 국가 컴퓨팅 센터</span>
+        <span class="hidden md:inline">·</span>
+        <span>【4면 미래】 피지컬 AI 8대 실증</span>
+      </div>
+    </header>
+
+    <!-- 1면 톱기사 (Front Page Lead Story) -->
+    <section class="py-8 border-b-2 border-ink-black">
+      <div class="mb-4">
+        <span class="inline-block bg-ink-black text-white text-[11px] font-bold px-2 py-0.5 tracking-wider uppercase font-serif mb-2">
+          1면 머리기사 · 특별취재
+        </span>
+        <h2 class="font-serif font-black text-3xl sm:text-4xl md:text-5xl leading-tight text-ink-black tracking-tight mb-3">
+          대한민국, “글로벌 AI 3대 강국(G3) 도약” 선포<br class="hidden sm:block" />
+          범정부 10조 원 투입... 인프라·제도·피지컬 AI ‘총력전’
+        </h2>
+        <h3 class="font-serif font-semibold text-lg sm:text-xl text-ink-gray border-l-4 border-ink-red pl-3 mb-4 leading-relaxed">
+          대통령 직속 ‘국가인공지능전략위원회’ 중심 컨트롤타워 가동...<br class="hidden md:block"/>
+          세계 최고 제조·하드웨어 경쟁력 결합해 美·中 양강 구도에 당당히 도전장
+        </h3>
+        
+        <div class="flex items-center justify-between text-xs text-ink-light border-y border-paper-300 py-1.5 font-serif">
+          <span>세종=특별취재팀 정책과학부 공동취재</span>
+          <span>기사입력 2026.09.21 09:00</span>
+        </div>
+      </div>
+
+      <!-- Article Body with Multi-column Newspaper Layout -->
+      <div class="grid lg:grid-cols-12 gap-8 mt-6">
+        
+        <!-- Left Main Content (8 cols) -->
+        <div class="lg:col-span-8 article-text text-sm sm:text-base leading-relaxed text-justify space-y-4 font-serif">
+          <p class="drop-cap">
+            대한민국이 인공지능(AI) 패권 경쟁의 거대한 분수령을 맞아 ‘글로벌 AI 3대 강국(AI G3)’으로 도약하기 위한 국가 총력전에 본격 돌입했다. 정부는 2026년 범정부 AI 예산을 역대 최대 규모인 약 10조 1,000억 원으로 대폭 증액하고, 대통령 직속 ‘국가인공지능전략위원회’를 중심으로 민·관 합동 컨트롤타워를 완비했다고 밝혔다.
+          </p>
+          <p>
+            이번 국가 전략의 핵심은 단순한 소프트웨어 알고리즘 개발을 넘어선다. 데이터 주권과 기술 자립을 보장하는 <strong>‘소버린 AI(Sovereign AI)’</strong> 인프라 확보부터, 메모리 강국 역량을 살린 <strong>‘국산 AI 반도체(NPU·PIM)’</strong> 육성, 그리고 현실 물리 공간을 제어하는 <strong>‘피지컬 AI(Physical AI)’</strong> 선점에 이르기까지 가치사슬 전반을 아우르는 입체적 접근이다.
+          </p>
+          
+          <!-- Mid-article Pull Quote Box -->
+          <div class="my-6 p-5 bg-paper-100 border-y-2 border-ink-black text-center">
+            <p class="font-serif font-bold text-lg sm:text-xl text-ink-dark italic">
+              “AI는 이제 국가의 경제 성장을 넘어 안보와 생존을 결정짓는 핵심 주권 인프라다.<br class="hidden sm:inline" /> 
+              민관이 원팀이 되어 미국, 중국에 이어 세계 3위 AI 선도국으로 도약하겠다.”
+            </p>
+            <span class="block text-xs text-ink-light mt-2 font-sans font-normal">— 국가인공지능전략위원회 합동 브리핑 中</span>
+          </div>
+
+          <p>
+            관계 부처에 따르면, 올해부터 전면 시행된 <strong>「인공지능기본법」</strong>을 필두로 기업의 규제 불확실성을 완전히 걷어내는 한편, 고성능 GPU 품귀로 고통받던 스타트업과 대학 연구소를 위해 <strong>‘국가 AI 컴퓨팅 센터’</strong>를 전격 가동한다. 
+          </p>
+          <p>
+            정부 고위 관계자는 “대한민국은 세계 최고 수준의 반도체와 통신망, 그리고 자동차·조선·이차전지 등 압도적인 물리적 제조업 기반을 보유하고 있다”며 “이러한 하드웨어 DNA와 AI를 융합하는 피지컬 AI 영역에서 승부를 건다면 충분히 글로벌 G3 진입이 가능하다”고 강조했다.
+          </p>
+        </div>
+
+        <!-- Right Side Panel / Graphic & Summary (4 cols) -->
+        <div class="lg:col-span-4 flex flex-col justify-between border-t lg:border-t-0 lg:border-l border-ink-black lg:pl-6 pt-6 lg:pt-0">
+          
+          <!-- Newspaper Graphic Box -->
+          <div class="border border-ink-black p-4 bg-paper-50 mb-6">
+            <div class="text-[11px] font-bold text-ink-red uppercase tracking-wider mb-1 font-serif">
+              [그래픽 종합] 한눈에 보는 국가 AI 추진 체계
+            </div>
+            <h4 class="font-serif font-black text-base border-b border-ink-black pb-2 mb-3">
+              대한민국 AI G3 도약 3대 삼각축
+            </h4>
+            
+            <div class="space-y-3 text-xs font-sans">
+              <div class="p-2.5 bg-white border border-paper-300">
+                <span class="font-bold text-ink-blue">① 주권 인프라 (Sovereignty)</span>
+                <p class="text-ink-gray mt-1">소버린 AI 모델 확보 & 민관 합작 국가 AI 컴퓨팅 센터(GPU 클러스터)</p>
+              </div>
+              <div class="p-2.5 bg-white border border-paper-300">
+                <span class="font-bold text-emerald-800">② 미래 초격차 (Super Gap)</span>
+                <p class="text-ink-gray mt-1">저전력 국산 NPU/PIM 반도체 & 로봇·제조 융합 '피지컬 AI' 1강</p>
+              </div>
+              <div class="p-2.5 bg-white border border-paper-300">
+                <span class="font-bold text-purple-900">③ 신뢰와 규범 (Trust & Rule)</span>
+                <p class="text-ink-gray mt-1">인공지능기본법 시행(1년 계도) & AI 안전연구소(AISI) 글로벌 표준</p>
+              </div>
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-paper-300 text-[11px] text-ink-light text-right">
+              자료: 과학기술정보통신부 · 국가인공지능전략위원회
+            </div>
+          </div>
+
+          <!-- Fact Sheet Box -->
+          <div class="border-2 border-ink-black p-4 bg-paper-100">
+            <h4 class="font-serif font-bold text-sm text-ink-black border-b border-ink-black pb-1.5 mb-2 flex items-center gap-1.5">
+              <i data-lucide="check-square" class="w-4 h-4 text-ink-red"></i>
+              <span>주요 정책 핵심 지표</span>
+            </h4>
+            <ul class="text-xs space-y-2 font-sans text-ink-dark">
+              <li><strong>• 범정부 AI 예산:</strong> 10조 1,000억 원 돌파</li>
+              <li><strong>• 인공지능기본법:</strong> 2026년 1월 22일 전면 시행</li>
+              <li><strong>• 국가 컴퓨팅 센터:</strong> 수만 장 첨단 GPU 보급</li>
+              <li><strong>• 피지컬 AI:</strong> 8대 주력산업 융합 실증 가속</li>
+              <li><strong>• 전 산업 AI 도입률:</strong> 2030년까지 70% 목표</li>
+            </ul>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 2면: 법률 및 거버넌스 기획 (Politics & Governance) -->
+    <section class="py-8 border-b-2 border-ink-black">
+      <div class="flex items-center gap-2 mb-4">
+        <span class="bg-ink-black text-white text-[11px] font-bold px-2 py-0.5 tracking-wider uppercase font-serif">
+          2면 정책·법제
+        </span>
+        <span class="text-xs text-ink-light font-serif">산업 진흥과 신뢰 기반의 새로운 이정표</span>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8">
+        
+        <!-- Article 1: AI 기본법 -->
+        <div class="border-b md:border-b-0 md:border-r border-paper-300 pb-6 md:pb-0 md:pr-6">
+          <h3 class="font-serif font-black text-2xl text-ink-black leading-tight mb-2">
+            「인공지능기본법」 마침내 시행... “규제보다 진흥 우선, 1년 계도기간으로 안착 지원”
+          </h3>
+          <p class="font-serif text-xs text-ink-gray mb-3">
+            고영향 AI 안전성 의무화하되 혁신 가로막지 않아... 전담 지원 데스크 설치
+          </p>
+          <div class="article-text text-sm leading-relaxed text-justify space-y-3 font-serif">
+            <p>
+              대한민국 국회를 통과해 본격 시행된 「인공지능기본법」은 글로벌 주요국 중에서도 선제적으로 법적 틀을 정립한 사례로 평가받는다. 유럽연합(EU)의 징벌적 고강도 규제와 달리, 우리 기본법은 <strong>‘우선 허용, 사후 규제’</strong>의 원칙을 천명하며 기술 개발과 창업을 북돋는 데 방점을 찍었다.
+            </p>
+            <p>
+              국민의 생명이나 권리에 영향을 미치는 ‘고영향 AI’에 한해 투명성과 안전성 영향평가를 받도록 하였으며, 초기 중소·스타트업의 행정 부담을 덜기 위해 과태료 처분을 유예하는 1년 이상의 계도기간을 운영한다. 한국지능정보사회진흥원(NIA) 내에 상담 창구가 가동되어 실시간 법률 컨설팅을 지원한다.
+            </p>
+          </div>
+        </div>
+
+        <!-- Article 2: 국가인공지능전략위원회 -->
+        <div>
+          <h3 class="font-serif font-black text-2xl text-ink-black leading-tight mb-2">
+            대통령 직속 ‘국가인공지능전략위원회’ 가동... 부처 칸막이 허물고 속도전
+          </h3>
+          <p class="font-serif text-xs text-ink-gray mb-3">
+            민·관 최고 전문가 결집한 법정 최고 의결기구... ‘AI 액션플랜’ 진두지휘
+          </p>
+          <div class="article-text text-sm leading-relaxed text-justify space-y-3 font-serif">
+            <p>
+              기존 자문기구 성격이었던 국가인공지능위원회는 기본법 제정과 함께 법정 기구인 ‘국가인공지능전략위원회’로 공식 격상되었다. 대통령이 직접 위원장을 맡고 각 부처 장관과 민간의 대표적 기업인·석학들이 총집결했다.
+            </p>
+            <p>
+              위원회는 매 분기 정책 이행 상황을 정밀 점검하고 민간 투자 애로사항을 규제 샌드박스로 즉각 해소하고 있다. 특히 부처별로 흩어져 있던 R&D와 실증 사업을 한 묶음으로 엮는 ‘대한민국 AI 행동계획(액션플랜)’을 통해 정책 집행 속도를 유례없이 끌어올렸다는 평가다.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 3면: 산업 및 인프라 (Industry & Infrastructure) -->
+    <section class="py-8 border-b-2 border-ink-black">
+      <div class="flex items-center gap-2 mb-4">
+        <span class="bg-ink-black text-white text-[11px] font-bold px-2 py-0.5 tracking-wider uppercase font-serif">
+          3면 산업·인프라
+        </span>
+        <span class="text-xs text-ink-light font-serif">기술 자립의 심장, AI 고속도로와 반도체 주권</span>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        
+        <!-- Story 1: 소버린 AI & 국가 컴퓨팅 센터 -->
+        <div class="border-b md:border-b-0 md:border-r border-paper-300 pb-6 md:pb-0 md:pr-4">
+          <div class="text-[11px] font-bold text-ink-blue font-serif mb-1">인프라 주권</div>
+          <h3 class="font-serif font-bold text-xl text-ink-black mb-2">
+            “AI 고속도로 열렸다”<br/>국가 AI 컴퓨팅 센터 출범
+          </h3>
+          <p class="text-xs text-ink-gray mb-2">민관합작 SPC 설립, 첨단 GPU 파격가 보급</p>
+          <p class="text-xs sm:text-sm text-justify leading-relaxed font-serif">
+            외산 빅테크 클라우드 종속을 막고 자국 데이터를 지키기 위한 ‘소버린 AI’ 전략이 결실을 맺었다. 대규모 첨단 GPU 클러스터로 무장한 ‘국가 AI 컴퓨팅 센터’가 문을 열며 국내 스타트업과 대학 연구진은 시세의 30% 이하 저렴한 가격이나 바우처로 대규모 컴퓨팅 자원을 이용할 수 있게 됐다.
+          </p>
+        </div>
+
+        <!-- Story 2: 국산 AI 반도체 -->
+        <div class="border-b md:border-b-0 md:border-r border-paper-300 pb-6 md:pb-0 md:pr-4">
+          <div class="text-[11px] font-bold text-emerald-800 font-serif mb-1">하드웨어 혁신</div>
+          <h3 class="font-serif font-bold text-xl text-ink-black mb-2">
+            엔비디아 독점 넘는다<br/>국산 NPU·PIM 공공 실증
+          </h3>
+          <p class="text-xs text-ink-gray mb-2">K-클라우드 프로젝트로 전력소모 50% 절감</p>
+          <p class="text-xs sm:text-sm text-justify leading-relaxed font-serif">
+            메모리 반도체 신화를 초저전력 신경망처리장치(NPU)와 프로세싱-인-메모리(PIM)로 이어간다. 정부는 공공 데이터센터와 지자체 스마트시티 사업에 국산 AI 칩 탑재율을 단계적으로 30% 이상 끌어올리며 상용화 레퍼런스를 전폭적으로 확보해주고 있다.
+          </p>
+        </div>
+
+        <!-- Story 3: 피지컬 AI -->
+        <div>
+          <div class="text-[11px] font-bold text-ink-red font-serif mb-1">차세대 승부수</div>
+          <h3 class="font-serif font-bold text-xl text-ink-black mb-2">
+            스크린 밖으로 나온 AI<br/>‘피지컬 AI’ 8대 분야 선도
+          </h3>
+          <p class="text-xs text-ink-gray mb-2">제조·로봇·국방 결합해 피지컬 1강 도약</p>
+          <p class="text-xs sm:text-sm text-justify leading-relaxed font-serif">
+            글로벌 빅테크가 장악한 텍스트 챗봇을 넘어, 로봇 핸드와 차량, 조선 공장 크레인을 자율 구동하는 ‘피지컬 AI(Physical AI)’에 국가 역량이 모인다. 제조, 농업, 국방 등 8대 전략 분야에 대규모 실증 컨소시엄이 가동되며 한국형 제조 AI가 세계 시장을 정조준한다.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 4면: 안전과 글로벌 규범 & 오피니언 (Global Ethics & Opinion) -->
+    <section class="py-8 border-b-2 border-ink-black">
+      <div class="grid lg:grid-cols-12 gap-8">
+        
+        <!-- Left: AI 안전연구소 (7 cols) -->
+        <div class="lg:col-span-7">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="bg-ink-black text-white text-[11px] font-bold px-2 py-0.5 tracking-wider uppercase font-serif">
+              4면 안전·국제
+            </span>
+            <span class="text-xs text-ink-light font-serif">위험 차단 파수꾼과 글로벌 표준화</span>
+          </div>
+
+          <h3 class="font-serif font-black text-2xl sm:text-3xl text-ink-black leading-tight mb-3">
+            위험한 AI 선제 차단... ‘AI 안전연구소(AISI)’ 글로벌 규범 주도
+          </h3>
+          <p class="font-serif text-xs text-ink-gray mb-4">
+            ‘AI 서울 정상회의’ 계기 설립... 美·英 안전연구소와 실시간 위협 정보 공유 체계 구축
+          </p>
+
+          <div class="text-sm leading-relaxed text-justify space-y-3 font-serif">
+            <p>
+              AI 기술의 급격한 발전 이면에 도사린 딥페이크 사기, 생물학적 무기 제조 악용, 초지능의 통제 상실 위험을 과학적으로 검증할 전담 연구소 ‘AI 안전연구소(AISI)’의 활약이 두드러지고 있다.
+            </p>
+            <p>
+              안전연구소는 국내외 프론티어 파운데이션 모델을 대상으로 가상의 침투 공격을 감행하는 ‘AI 레드팀(Red Teaming)’ 테스트를 상시 수행하고 있다. 또한 미국 AISI, 영국 AISI와 긴밀한 다자간 안전 네트워크를 가동하며, 국제 표준에 부합하는 ‘AI 신뢰성 인증 마크’를 기업에 부여해 K-AI 서비스의 글로벌 진출 안전판 역할을 톡톡히 해내고 있다.
+            </p>
+          </div>
+        </div>
+
+        <!-- Right: 사설 / 칼럼 (5 cols) -->
+        <div class="lg:col-span-5 bg-paper-100 p-6 border-2 border-ink-black flex flex-col justify-between">
+          <div>
+            <div class="border-b border-ink-black pb-2 mb-3 flex items-center justify-between">
+              <span class="font-serif font-black text-sm text-ink-red tracking-widest">[ 본지 사설 ]</span>
+              <span class="text-[11px] text-ink-light font-serif">2026년 9월 21일자</span>
+            </div>
+            <h4 class="font-serif font-black text-xl text-ink-black mb-3 leading-snug">
+              소버린 AI와 피지컬 AI,<br/>대한민국 생존의 ‘골든타임’이다
+            </h4>
+            <div class="text-xs sm:text-sm text-justify leading-relaxed font-serif text-ink-dark space-y-2">
+              <p>
+                세계는 지금 보이지 않는 AI 총성 없는 전쟁 중이다. 해외 빅테크에 국가 데이터 주권을 송두리째 넘겨준다면 미래 세대는 디지털 식민지를 면치 못할 것이다.
+              </p>
+              <p>
+                다행히 우리는 법과 제도를 정비했고, 컴퓨팅 센터와 안전연구소라는 든든한 방파제를 세웠다. 이제 중요한 것은 ‘현장 실행력’이다. 반도체와 로봇, 현장 제조 공정이 AI와 결합할 때 대한민국은 진정한 AI 3대 강국의 반열에 오를 수 있을 것이다.
+              </p>
+            </div>
+          </div>
+
+          <div class="mt-4 pt-3 border-t border-paper-300 text-right text-[11px] text-ink-light font-serif">
+            대한인공지능일보 논설위원실
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 신문 하단: 독자 서비스 및 정책 지원 안내 창구 (Notice Board) -->
+    <section class="pt-8 pb-4">
+      <div class="border border-ink-black p-6 bg-paper-50">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-4 mb-4 border-b border-paper-300 gap-2">
+          <div>
+            <h4 class="font-serif font-black text-lg text-ink-black">
+              📰 [알림] 대한민국 AI 정책 기업·연구자 지원 안내 데스크
+            </h4>
+            <p class="text-xs text-ink-gray font-serif">
+              기사 관련 정부 지원 사업 및 바우처 신청 절차는 아래 전담 창구를 통해 즉시 확인 가능합니다.
+            </p>
+          </div>
+          <a href="index_green.html" class="no-print text-xs font-bold text-emerald-800 underline hover:text-emerald-950 flex items-center gap-1 font-serif">
+            <span>대화형 진단기(녹색 버전)에서 확인</span>
+            <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+          </a>
+        </div>
+
+        <div class="grid sm:grid-cols-3 gap-4 text-xs font-sans">
+          <div class="p-3 bg-white border border-paper-300 rounded">
+            <span class="font-bold text-ink-black block mb-1">인공지능기본법 컨설팅 데스크</span>
+            <p class="text-ink-gray">고영향 AI 여부 진단 및 자가 체크리스트 무료 지원</p>
+            <span class="text-ink-red font-semibold block mt-1">문의: NIA 한국지능정보사회진흥원</span>
+          </div>
+          <div class="p-3 bg-white border border-paper-300 rounded">
+            <span class="font-bold text-ink-black block mb-1">국가 컴퓨팅 GPU 바우처 신청</span>
+            <p class="text-ink-gray">초고성능 GPU 클러스터 및 클라우드 이용료 할인 지원</p>
+            <span class="text-ink-blue font-semibold block mt-1">문의: NIPA 정보통신산업진흥원</span>
+          </div>
+          <div class="p-3 bg-white border border-paper-300 rounded">
+            <span class="font-bold text-ink-black block mb-1">AI 신뢰성·안전성 벤치마크</span>
+            <p class="text-ink-gray">프론티어 모델 레드팀 검증 및 신뢰성 인증 마크 발급</p>
+            <span class="text-purple-900 font-semibold block mt-1">문의: AI 안전연구소(AISI)</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newspaper Footer Imprint -->
+    <footer class="mt-8 pt-6 border-t-2 border-double-thick text-center text-xs text-ink-gray font-serif">
+      <div class="flex flex-wrap justify-center gap-4 text-[11px] mb-2 text-ink-light">
+        <span>발행인: 대한민국 AI 정책 홍보 특별기획팀</span>
+        <span>·</span>
+        <span>편집인: 정책과학부</span>
+        <span>·</span>
+        <span>인쇄처: 정부세종청사 인공지능합동브리핑실</span>
+        <span>·</span>
+        <span>구독 및 기사 제보: 02-2110-2026</span>
+      </div>
+      <p class="text-[11px] text-ink-light">
+        본 지면은 대한민국 최신 AI 정책 동향(AI기본법, 국가AI전략위, 소버린AI, 국산 반도체, 피지컬AI, 안전연구소)을 신문 기사 형식으로 재구성한 특별 기획 페이지입니다.
+      </p>
+      <p class="text-[10px] text-ink-light mt-1">
+        © 2026 THE KOREA AI CHRONICLE. All rights reserved.
+      </p>
+    </footer>
+
+  </main>
+
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    // Font size switcher for newspaper readability
+    function changeFontSize(size) {
+      const article = document.getElementById('newspaperArticle');
+      if (size === 'small') {
+        article.style.fontSize = '0.92rem';
+      } else if (size === 'large') {
+        article.style.fontSize = '1.1rem';
+      } else {
+        article.style.fontSize = '1rem';
+      }
+    }
+  </script>
+</body>
+</html>
